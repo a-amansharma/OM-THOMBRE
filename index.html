@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- Tab icon. The .ico comes first for legacy tab strips, then the SVG for
+       anything that scales. Both render the same mark from favicon.svg. -->
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <!-- iOS ignores SVG here, so it needs a real PNG. -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+  <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Space+Grotesk:wght@300..700&display=swap"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Space+Grotesk:wght@300..700&display=swap">
+  </noscript>
+  <!-- The hero is a <picture>: phones and tablets (below lg) get
+       center-top-image-only-smartphone.png and laptop width up gets portrait.png.
+       The preload must mirror that split, otherwise every small screen downloads
+       the desktop image before the <source> is parsed and then throws it away
+       (~1.7MB wasted). -->
+  <link rel="preload" as="image" type="image/png" href="/center-top-image-only-smartphone.png"
+        media="(max-width: 1023px)" fetchpriority="high">
+  <link rel="preload" as="image" type="image/png" href="/portrait.png"
+        media="(min-width: 1024px)" fetchpriority="high">
+
+  <title>OM THOMBRE — AI Director &amp; AI Video Editor</title>
+  <meta name="title" content="OM THOMBRE — AI Director &amp; AI Video Editor">
+  <meta name="description"
+    content="Portfolio of Om Thombre. AI Director and AI Video Editor working on AI-powered video production, short-form advertising, Marathi devotional storytelling and large-scale content operations.">
+  <meta name="keywords"
+    content="AI Director, AI Video Editor, AI Video Production, Video Editor, Creative Strategist, Content Strategy, Performance Advertising, Meta Ads, Scriptwriting, Storytelling, Video Editing, Sound Design, Large-Scale Content Production, Portfolio, Om Thombre">
+  <meta name="author" content="Om Thombre">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OM THOMBRE — AI Director &amp; AI Video Editor">
+  <meta property="og:description"
+    content="AI-powered video production, short-form advertising, storytelling and performance-driven content — selected work by Om Thombre.">
+  <meta property="og:image" content="/og-icon.png">
+  <meta property="og:image:width" content="1254">
+  <meta property="og:image:height" content="1254">
+  <meta property="og:image:alt" content="Om Thombre monogram">
+  <meta property="og:site_name" content="Om Thombre">
+
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:title" content="OM THOMBRE — AI Director &amp; AI Video Editor">
+  <meta property="twitter:description"
+    content="AI-powered video production, short-form advertising, storytelling and performance-driven content — selected work by Om Thombre.">
+  <meta property="twitter:image" content="/og-icon.png">
+  <meta property="twitter:image:alt" content="Om Thombre monogram">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Om Thombre",
+    "jobTitle": "AI Director | AI Video Editor | Creative & Content Strategist",
+    "knowsAbout": ["AI Video Production", "AI Video Generation", "Video Editing", "Short-Form Advertising", "Scriptwriting & Storytelling", "Character & Scene Development", "Sound Design", "Performance Creative", "Meta Advertising", "Content Strategy", "Large-Scale Content Production", "Quality Control"]
+  }
+  </script>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script type="module" src="/src/index.js"></script>
+</body>
+
+</html>
