@@ -31,19 +31,33 @@ const useScrollToGallery = (galleryRef) => {
       return () => { cancelled = true; };
     }
 
-    /* The case-study cards used to live in the pinned horizontal track, so the
-       deep link worked by panning the track. They now live in the vertical grid
-       further down, so an element carrying that id is simply scrolled into view.
-       Both branches are kept: an id inside the gallery still wins, because the
-       grid is lazy and may not have mounted yet on the first frame. */
-    const scrollCardIntoView = () => {
-      const card = document.getElementById(scrollTo);
-      if (!card) return false;
+    /* The case-study cards used to live in the pinned horizontal track, so the deep
+       link worked by panning the track. They now live in the vertical grid below,
+       so the card with that id is simply scrolled to.
 
-      const top = card.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3;
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      smoothScrollTo(Math.min(top, maxScroll));
-      return true;
+       It has to retry rather than scroll once: the grid is code-split and every
+       section below the hero is lazy, so the document keeps growing while the
+       scroll is animating — and mounting the pinned videos section runs a
+       ScrollTrigger refresh that can cancel it mid-flight. A single scrollTo
+       stalls around the pinned section; re-measuring lands on the card. */
+    const scrollToCard = async () => {
+      for (let attempt = 0; attempt < 12; attempt++) {
+        if (cancelled) return false;
+
+        const card = document.getElementById(scrollTo);
+        if (card) {
+          const rect = card.getBoundingClientRect();
+          const framed = rect.top > -80 && rect.top < window.innerHeight * 0.6;
+          if (framed) return true;
+
+          const target = rect.top + window.scrollY - window.innerHeight * 0.3;
+          const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+          smoothScrollTo(Math.min(target, maxScroll));
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+      return false;
     };
 
     const findTrack = () => {
@@ -83,13 +97,8 @@ const useScrollToGallery = (galleryRef) => {
       const section = galleryRef.current;
       if (!section) return;
 
-      /* Preferred path: the card lives in the lazy vertical grid below, so wait
-         briefly for it to mount and scroll straight to it. */
-      for (let attempt = 0; attempt < 10; attempt++) {
-        if (cancelled) return;
-        if (scrollCardIntoView()) return;
-        await new Promise((resolve) => setTimeout(resolve, 200));
-      }
+      /* Preferred path: the card lives in the lazy vertical grid below. */
+      if (await scrollToCard()) return;
 
       const track = await waitForTrack();
       if (cancelled || !track) return;

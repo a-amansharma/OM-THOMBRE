@@ -35,10 +35,14 @@ export default function ProjectGrid({ onOpenProject }) {
               {String(PROJECT_META.length).padStart(2, "0")} Case Studies
             </span>
             <h2 className="mt-4 text-[clamp(2.25rem,7vw,4.5rem)] font-black uppercase leading-[0.92] tracking-tight text-black">
-              Selected <span className="text-transparent" style={{ WebkitTextStroke: "2px black" }}>Work</span>
+              Selected{" "}
+              <span className="text-transparent" style={{ WebkitTextStroke: "2px black" }}>
+                Work
+              </span>
             </h2>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-black/60 md:text-lg">
-              Full case studies — the brief, the approach, and what came out of it. Tap any card to read it.
+              Full case studies — the brief, the approach, and what came out of it. Tap any card to
+              read it.
             </p>
           </div>
         </Gsap.div>
