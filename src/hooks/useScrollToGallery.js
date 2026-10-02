@@ -31,6 +31,21 @@ const useScrollToGallery = (galleryRef) => {
       return () => { cancelled = true; };
     }
 
+    /* The case-study cards used to live in the pinned horizontal track, so the
+       deep link worked by panning the track. They now live in the vertical grid
+       further down, so an element carrying that id is simply scrolled into view.
+       Both branches are kept: an id inside the gallery still wins, because the
+       grid is lazy and may not have mounted yet on the first frame. */
+    const scrollCardIntoView = () => {
+      const card = document.getElementById(scrollTo);
+      if (!card) return false;
+
+      const top = card.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3;
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      smoothScrollTo(Math.min(top, maxScroll));
+      return true;
+    };
+
     const findTrack = () => {
       const section = galleryRef.current;
       if (!section) return null;
@@ -67,6 +82,14 @@ const useScrollToGallery = (galleryRef) => {
       if (cancelled) return;
       const section = galleryRef.current;
       if (!section) return;
+
+      /* Preferred path: the card lives in the lazy vertical grid below, so wait
+         briefly for it to mount and scroll straight to it. */
+      for (let attempt = 0; attempt < 10; attempt++) {
+        if (cancelled) return;
+        if (scrollCardIntoView()) return;
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
 
       const track = await waitForTrack();
       if (cancelled || !track) return;

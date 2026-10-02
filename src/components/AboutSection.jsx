@@ -161,16 +161,16 @@ const AboutSection = memo(function AboutSection() {
                 {/* Hover desaturation overlay */}
                 <div className="absolute inset-0 bg-black/[0.12] group-hover:bg-transparent transition-colors duration-700 z-10 mix-blend-multiply pointer-events-none" />
 
-                <picture>
-                  <source srcSet={asset('/profilee.webp')} type="image/webp" />
-                  <img
-                    src={asset('/profilee.webp')}
-                    alt="Om Thombre"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover object-top grayscale-[25%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                  />
-                </picture>
+                {/* om-main.png is the supplied portrait — 896x1195, so slightly
+                    taller than this 4:5 frame. object-cover trims the sides and
+                    keeps the head in frame. */}
+                <img
+                  src={asset('/om-main.png')}
+                  alt="Om Thombre"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover object-top grayscale-[25%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                />
 
                 {/* Name plate at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 px-5 pt-10 pb-4 bg-gradient-to-t from-black/65 via-black/30 to-transparent z-20">

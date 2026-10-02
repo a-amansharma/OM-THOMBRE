@@ -382,16 +382,19 @@ html.lenis body {
 /* ============================================
    Hero: left-aligned text over the full-bleed portrait
    ============================================ */
-/* Below 1536px the text stays centred. At 2xl+ it moves to the left edge so it
-   sits over the quieter side of the cover image instead of straddling the
-   subject, which is anchored toward the lower centre of the frame.
+/* The alignment switches exactly where the <picture> does. At 1024px the hero
+   stops using the centred cutout and starts using the full-bleed portrait, and
+   the text moves to the left edge so it sits over the quieter side of the frame
+   instead of straddling the subject, which occupies the right half. Below 1024px
+   the cutout is centred above the name, so the text stays centred there too.
 
-   The width is a plain fraction of the viewport — there is no figure beside it
-   any more, so no column has to be reserved. */
-@media (min-width: 1536px) {
+   The name lockup is 645px wide once the font-size reaches its 9rem cap, so
+   68vw is the narrowest fraction that still contains it at a 1024px viewport —
+   a narrower column would push the one-word "THOMBRE" outside its own box. */
+@media (min-width: 1024px) {
   .hero-split {
     align-self: flex-start;
-    max-width: min(1200px, 56vw);
+    max-width: min(1200px, 68vw);
     margin-right: auto;
     align-items: flex-start;
     text-align: left;

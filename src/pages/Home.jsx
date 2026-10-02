@@ -17,7 +17,7 @@ const TechnicalCapabilities = lazy(() => import('../components/TechnicalCapabili
 const LargeScaleContent = lazy(() => import('../components/LargeScaleContent'));
 const BusinessImpact = lazy(() => import('../components/BusinessImpact'));
 const ToolsSection = lazy(() => import('../components/ToolsSection'));
-const VideoShowcase = lazy(() => import('../components/VideoShowcase'));
+const ProjectGrid = lazy(() => import('../components/ProjectGrid'));
 const VideoPlayerModal = lazy(() => import('../components/VideoPlayerModal'));
 
 export default function Home() {
@@ -67,13 +67,16 @@ export default function Home() {
       <HeroSection isRevealed={true} />
       <Suspense fallback={null}><AboutSection /></Suspense>
 
-      <div id="project-section" ref={galleryRef} className="bg-neutral-900">
+      {/* Videos only. This section carries the videos-section id the navbar,
+          footer and AI command registry point at; the case-study cards live in
+          ProjectGrid below, under the project-section id. */}
+      <div id="videos-section" ref={galleryRef} className="bg-neutral-900">
         <Suspense fallback={<div className="h-screen bg-neutral-900" />}>
-          <ProjectGallery onOpenProject={handleOpenProject} onPlayVideo={handlePlayVideo} />
+          <ProjectGallery onPlayVideo={handlePlayVideo} />
         </Suspense>
       </div>
 
-      <Suspense fallback={null}><VideoShowcase onPlayVideo={handlePlayVideo} /></Suspense>
+      <Suspense fallback={null}><ProjectGrid onOpenProject={handleOpenProject} /></Suspense>
 
       <Suspense fallback={null}><ProfessionalExperience /></Suspense>
       <Suspense fallback={null}><LargeScaleContent /></Suspense>

@@ -45,3 +45,7 @@ secret*.json
 # full-resolution source footage (only the web-optimised copies in
 # /public/project-videos are committed)
 /Project-Videos-originals/
+
+# full-resolution source images (only the web copies in /public are
+# committed)
+/Project-Image-originals/

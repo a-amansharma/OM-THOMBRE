@@ -175,15 +175,20 @@ const HeroSection = memo(function HeroSection({ isRevealed = true }) {
       </Gsap.div>
 
       {/* ── PORTRAIT ──
-          Landscape source (1671x941) laid over the whole header as a cover
+          Landscape source (1627x967) laid over the whole header as a cover
           layer, so the hero is fully filled at startup and every content layer
           stacks above it. The image carries a small scale so the drift never
           exposes an edge, and the bottom fade carries it into the next section
           the way the background layer already does.
 
+          The subject sits in the RIGHT half of that frame and runs flush to its
+          right edge, so the focal point is anchored right: a centred focal point
+          crops a quarter of the subject away on a 1024px-wide screen, while
+          anchoring right pushes the overflow onto the empty left half instead.
+
           Below lg the landscape frame is cropped so hard on a phone or tablet
           that the subject is lost, and it also sits directly behind the centred
-          name, which muddies the type. So a transparent cutout (2400x1423) is
+          name, which muddies the type. So a transparent cutout (575x705) is
           swapped in and shown whole, in flow above the name, instead of as a
           backdrop. Laptop width and up keeps the full-bleed cover treatment. */}
       <Gsap.div
@@ -201,31 +206,31 @@ const HeroSection = memo(function HeroSection({ isRevealed = true }) {
             <source
               media="(max-width: 1023px)"
               srcSet={asset('/center-top-image-only-smartphone.png')}
-              width="2400"
-              height="1423"
+              width="575"
+              height="705"
             />
             <img
               src={asset('/portrait.png')}
               alt="Om Thombre"
-              /* Intrinsic size of the fallback source. The <source> below is
-                 2400x1423 and is media-preloaded, so the correct aspect ratio is
+              /* Intrinsic size of the fallback source. The <source> above is
+                 575x705 and is media-preloaded, so the correct aspect ratio is
                  already in cache when the img paints. */
-              width={1671}
-              height={941}
+              width={1627}
+              height={967}
               loading="eager"
               decoding="async"
               draggable={false}
               /* Phone and tablet: a transparent RGBA cutout shown whole (no
-                 cover), anchored bottom-centre and scaled up so the figure reads
-                 closer. Bottom origin keeps the figure's base on a fixed line, so
-                 the upward growth happens into the empty space above the name
-                 rather than pushing it down. The layer drops its clip at these
-                 widths for the same reason — a bottom-anchored scaled box would
-                 otherwise have its head sliced off. Caps keep a tall phone from
-                 overflowing.
-                 lg and up: the cover treatment that fills the header, focal point
-                 kept low so the bottom of the frame stays in view. */
-              className="block max-lg:h-auto max-lg:max-h-[42svh] max-lg:w-auto max-lg:max-w-[min(70vw,30rem)] max-lg:object-contain max-lg:mx-auto max-lg:origin-bottom max-lg:scale-[1.7] md:max-lg:scale-[2] h-full w-full object-cover object-[center_78%] scale-[1.08] select-none"
+                 cover), anchored bottom-centre. The PNG is trimmed to its alpha
+                 bbox, so the figure sits exactly on the viewport's centre line
+                 and the size caps alone decide how big it reads — no scale
+                 hack needed. Caps keep a tall phone from overflowing, and the
+                 layer drops its clip at these widths so a bottom-anchored box
+                 never has its head sliced off.
+                 lg and up: the cover treatment that fills the header, focal
+                 point pinned right so the subject is never cropped, and kept
+                 low so the bottom of the frame stays in view. */
+              className="block max-lg:h-auto max-lg:max-h-[42svh] max-lg:w-auto max-lg:max-w-[min(70vw,30rem)] max-lg:object-contain max-lg:mx-auto max-lg:origin-bottom h-full w-full object-cover object-[right_78%] scale-[1.08] select-none"
             />
           </picture>
         </Gsap.div>
@@ -233,8 +238,10 @@ const HeroSection = memo(function HeroSection({ isRevealed = true }) {
       </Gsap.div>
 
       {/* ── MAIN CONTENT ──
-          Stacked above the portrait layer. Centred below 1536px; at 2xl+ the
-          .hero-split class moves the stack to the left edge (see index.css). */}
+          Stacked above the portrait layer. Centred below 1024px, where the hero
+          shows the cutout floating above the name; from 1024px up the
+          .hero-split class moves the stack to the left edge, mirroring the
+          <picture> switch to the full-bleed portrait (see index.css). */}
       {/* Parallax wrapper (scroll-driven y only) */}
       <Gsap.div
         style={enableParallax ? { y: contentY } : undefined}
@@ -250,12 +257,12 @@ const HeroSection = memo(function HeroSection({ isRevealed = true }) {
 
         {/* 2. Massive Clear Typography */}
         <div className="flex flex-col items-center justify-center relative w-full mb-4 md:mb-5 hero-left">
-          {/* Left Decoration — hidden at 2xl+, where the text is left-aligned
-              against the viewport edge and there is no margin left to sit in.
-              Also hidden below sm: the name spans nearly the full phone width
-              there, so a 40px disc at left-0 would sit on top of the "S". */}
-          <OrbitingDecoration icon={Clapperboard} delay={0.15} className="left-0 sm:left-2 lg:left-16 top-2 max-sm:hidden 2xl:hidden" isRevealed={isRevealed} enableAmbientMotion={enableAmbientMotion} />
-          <OrbitingDecoration icon={Wand2} delay={0.45} className="left-6 sm:left-12 lg:left-28 bottom-8 hidden sm:flex 2xl:hidden" isRevealed={isRevealed} enableAmbientMotion={enableAmbientMotion} />
+{/* Left Decoration — hidden from lg up, where the text is left-aligned against
+    the viewport edge and there is no margin left to sit in.
+    Also hidden below sm: the name spans nearly the full phone width
+    there, so a 40px disc at left-0 would sit on top of the "O". */}
+<OrbitingDecoration icon={Clapperboard} delay={0.15} className="left-0 sm:left-2 top-2 max-sm:hidden lg:hidden" isRevealed={isRevealed} enableAmbientMotion={enableAmbientMotion} />
+<OrbitingDecoration icon={Wand2} delay={0.45} className="left-6 sm:left-12 bottom-8 hidden sm:flex lg:hidden" isRevealed={isRevealed} enableAmbientMotion={enableAmbientMotion} />
 
           <h1
             /* Below sm the 4.25rem floor made the name wider than a 320px

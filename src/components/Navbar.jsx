@@ -12,7 +12,10 @@ const NAV_ITEMS = [
   { label: 'Skills', sectionId: 'capabilities-section' },
 ];
 
-const DARK_SECTION_IDS = ['project-section', 'tech-stack-section', 'contact-section'];
+/* The pinned horizontal video track sits on near-black; project-section is now
+   the light card grid, so it must stay off this list or the navbar renders
+   dark-on-cream while it is on screen. */
+const DARK_SECTION_IDS = ['videos-section', 'tech-stack-section', 'contact-section'];
 
 const Navbar = memo(function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
